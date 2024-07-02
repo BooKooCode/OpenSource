@@ -14,7 +14,6 @@ Characteristic UUID:
 
 - Command Characteristic UUID: 0xFF01
 - Extraction Data Characteristic UUID: 0xFF02
-- Power Data Characteristic UUID: 0xFF03
 
 ### Check Sum Method
 
@@ -41,7 +40,7 @@ if CheckSum == DataSUM
 
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | BYTE7 | BYTE8 |BYTE9 |BYTE10 |DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
-| 02 | 1B | 00 | 00 | <br>Pressure*100(bar)  <br><br> High byte of a unsigned Short integer	 | <br>Pressure*100(bar)   <br><br> Low byte of a unsigned Short integer	 | 00 |00 |00 |00 | Receives pressure data |
+| 02 | 1B | 00 | 00 | <br>Pressure*100(bar)  <br><br> High byte of a unsigned Short integer	 | <br>Pressure*100(bar)   <br><br> Low byte of a unsigned Short integer	 | Percentage of power remaining (%) |00 |00 |00 | Receives pressure data |
 
 ### Other Data
 
