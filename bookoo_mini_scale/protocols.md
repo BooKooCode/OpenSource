@@ -39,7 +39,7 @@ if CheckSum == DataSUM
 | 03 | 0A | 04 | 00 | 00 | 0a | Send the start timer command |
 | 03 | 0A | 05 | 00 | 00 | 0d | Send the stop timer command |
 | 03 | 0A | 06 | 00 | 00 | 0c | Send the reset timer command |
-| 03 | 0A | 07 | 00 | 00 | 00 | Send the tare and start time command |
+| 03 | 0A | 07 | 00 | 00 | 00 | Send the tare and start time command (recommend) |
 | 03 | 0A | 08 | 00/01 | 00 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on |
 
 ### Receiving Weight
