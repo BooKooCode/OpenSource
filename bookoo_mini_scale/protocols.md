@@ -32,7 +32,7 @@ if CheckSum == DataSUM
 
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |
-| PRODUCT NUMBER (Header 1) | TYPE (Header 2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
+| PRODUCT NUMBER<br>(Header&nbsp;1) | TYPE<br>(Header&nbsp;2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
 | 03 | 0A | 01 | 00 | 00 | 08 | Send the tare command |
 | 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep size, 0 means no beeper sound on |
 | 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes |
