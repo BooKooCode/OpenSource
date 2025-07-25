@@ -1,6 +1,6 @@
 # MINI SCALE Transmission protocol
 - Contact Us: develop@bookoocoffee.com
-- Last Update: 2April 8, 2024
+- Last Update: July 25, 2025
 
 >All BLE UUIDs adopted by the BOOKOO MINI SCALE use a simplified representation of the 16-bit UUID, and its corresponding 128-bit UUID is the unified structure agreed upon by the Bluetooth Association, i.e. 0000 xxxx -0000-1000-8000-00805F9B34FB
 
@@ -20,7 +20,7 @@ Characteristic UUID:
 
 Method: XOR Calculation
 ```
-CheckSum = Header1 ^ Header2 ^ Data0 ^ Data1 ^ ... ^ DataN
+CheckSum = Header1 ^ Header2 ^ Data1 ^ Data2 ^ ... ^ DataN
 
 if CheckSum == DataSUM
     pass
@@ -32,15 +32,15 @@ if CheckSum == DataSUM
 
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |
-| PRODUCT NUMBER | TYPE | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
+| PRODUCT NUMBER (Header 1) | TYPE (Header 2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
 | 03 | 0A | 01 | 00 | 00 | 08 | Send the tare command |
-| 03 | 0A | 02 | 00~05 (Beep level) | 00 | checkSum | Adjust the beep size, 0 means no beeper sound on |
-| 03 | 0A | 03 | 01~1e (Auto-off duration) | 00 | checkSum | Adjust the automatic shutdown duration from 1-30 minutes |
+| 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep size, 0 means no beeper sound on |
+| 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes |
 | 03 | 0A | 04 | 00 | 00 | 0a | Send the start timer command |
 | 03 | 0A | 05 | 00 | 00 | 0d | Send the stop timer command |
 | 03 | 0A | 06 | 00 | 00 | 0c | Send the reset timer command |
 | 03 | 0A | 07 | 00 | 00 | 00 | Send the tare and start time command (recommend) |
-| 03 | 0A | 08 | 00/01 | 00 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on |
+| 03 | 0A | 08 | 00 | 00/01 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on |
 
 ### Receiving Weight
 
