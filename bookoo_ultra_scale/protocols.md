@@ -1,6 +1,6 @@
 # ULTRA SCALE Transmission protocol
 - Contact Us: develop@bookoocoffee.com
-- Last Update: July 25, 2025
+- Last Update: August 12, 2026
 
 >All BLE UUIDs adopted by the BOOKOO ULTRA SCALE use a simplified representation of the 16-bit UUID, and its corresponding 128-bit UUID is the unified structure agreed upon by the Bluetooth Association, i.e. 0000 xxxx -0000-1000-8000-00805F9B34FB
 
@@ -33,17 +33,18 @@ if CheckSum == DataSUM
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | DESCRIPTION | NOTE |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |
 | PRODUCT NUMBER<br>(Header&nbsp;1) | TYPE<br>(Header&nbsp;2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
-| 03 | 0A | 01 | 00 | 00 | 08 | Send the tare command | Not valid during automatic mode operation. |
+| 03 | 0A | 01 | 00 | 00 | checkSum | Send the tare command | Not valid during automatic mode operation. |
 | 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep size, 0 means no beeper sound on | |
 | 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes | |
-| 03 | 0A | 04 | 00 | 00 | 0d | Send the start timer command | Only effective in timing-mode and ratio-mode. |
-| 03 | 0A | 05 | 00 | 00 | 0c | Send the stop timer command | Only effective in timing-mode and ratio-mode. |
-| 03 | 0A | 06 | 00 | 00 | 0f | Send the reset timer command | Only effective in timing-mode and ratio-mode. |
-| 03 | 0A | 07 | 00 | 00 | 0e | Send the tare and start time command (recommend) |  |
+| 03 | 0A | 04 | 00 | 00 | checkSum | Send the start timer command | Only effective in timing-mode and ratio-mode. |
+| 03 | 0A | 05 | 00 | 00 | checkSum | Send the stop timer command | Only effective in timing-mode and ratio-mode. |
+| 03 | 0A | 06 | 00 | 00 | checkSum | Send the reset timer command | Only effective in timing-mode and ratio-mode. |
+| 03 | 0A | 07 | 00 | 00 | checkSum | Send the tare and start time command (recommend) |  |
 | 03 | 0A | 08 | 00/01 | 00 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on | |
-| 03 | 0A | 09 | 00 | 00 | 00 | Send the calibration command. | Only effective in weight-mode |
+| 03 | 0A | 09 | 00 | 00 | checkSum | Send the calibration command. | Only effective in weight-mode |
 | 03 | 0A | 0B | 00/01 | 00 | checkSum | Set the stop condition for automatic-mode, 00 means that the stop condition is the liquid flow stopping, and 01 means that the stop condition is the container being removed. | |
-| 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.0 g |
+| 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.0 g. <mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark> |
+| 03 | 0A | 15 | 00 | 00 | checkSum | Send the shutdown command | <mark><strong><em>Available in release firmware V4.0.0 and later.</em></strong></mark> Not valid while charging. |
 
 
 ### Receiving Weight
@@ -59,10 +60,25 @@ if CheckSum == DataSUM
 
 >Note: The powder weight unit is grams
 
+><mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark>
+
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | BYTE7 |BYTE8 |BYTE9 |BYTE10 |BYTE11 |BYTE12 |BYTE13 |BYTE14 |BYTE15 |BYTE16 |BYTE17 |BYTE18 |BYTE19 |BYTE20 |DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
 | PRODUCT NUMBER | TYPE | DATA1 | DATA2 | DATA3 | DATA4 | DATA5 | DATA6 | DATA7 | DATA8 | DATA9 | DATA10 | DATA11 | DATA12 | DATA13 | DATA14 | DATA15 | DATA16 | DATA17 | DATASUM |DESCRIPTION |
 | 03 | 0F | Powder weight symbol data points (+/-) | Powder weight * 100<br>High byte of an unsigned 24-bit integer | Powder weight * 100<br>Mid byte of an unsigned 24-bit integer | Powder weight * 100<br>Low byte of an unsigned 24-bit integer |00 |00 |00 |00 |00 |00 |00 |00 |00 |00 |00 |00 |00 |checkSum | Get powder weight data on the scale |
+
+### Receiving Automatic Mode Event And Settlement Data
+
+><mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark>
+
+>Event trigger: 02 is sent when automatic mode enters ready; 01 is sent when brewing starts automatically or by command; 00 is sent when brewing ends by the configured automatic stop condition or by command; 03 is sent when exiting ready; 04 is sent when exiting done.
+
+>BYTE11-BYTE13 contain the average flow rate in timing mode, or the ratio result (liquid weight / powder weight) in ratio mode.
+
+| BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | BYTE7 |BYTE8 |BYTE9 |BYTE10 |BYTE11 |BYTE12 |BYTE13 |BYTE14 |BYTE15 |BYTE16 |BYTE17 |BYTE18 |BYTE19 |BYTE20 |DESCRIPTION |
+| ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
+| PRODUCT NUMBER | TYPE | DATA1 | DATA2 | DATA3 | DATA4 | DATA5 | DATA6 | DATA7 | DATA8 | DATA9 | DATA10 | DATA11 | DATA12 | DATA13 | DATA14 | DATA15 | DATA16 | DATA17 | DATASUM |DESCRIPTION |
+| 03 | 0D | Event state<br>00:Stopped<br>01:Started<br>02:Ready<br>03:Exit ready<br>04:Exit done | MillSeconds<br>High byte of an unsigned 24-bit integer | MillSeconds<br>Mid byte of an unsigned 24-bit integer | MillSeconds<br>Low byte of an unsigned 24-bit integer | Weight symbol data points (+/-) | Grams weight * 100<br>High byte of an unsigned 24-bit integer | Grams weight * 100<br>Mid byte of an unsigned 24-bit integer | Grams weight * 100<br>Low byte of an unsigned 24-bit integer | Result symbol data points (+/-) | Average flow rate or ratio result * 100<br>High byte of an unsigned Short integer | Average flow rate or ratio result * 100<br>Low byte of an unsigned Short integer |00 |00 |00 |00 |00 |00 |checkSum | Get automatic mode event and settlement data on the scale |
 
 ### Other Data
 
