@@ -71,10 +71,12 @@ if CheckSum == DataSUM
 
 >Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.
 
+>Event trigger: 02 is sent when automatic mode enters ready; 01 is sent when brewing starts automatically or by command; 00 is sent when brewing ends by the configured automatic stop condition or by command; 03 is sent when exiting ready; 04 is sent when exiting done.
+
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | BYTE7 |BYTE8 |BYTE9 |BYTE10 |BYTE11 |BYTE12 |BYTE13 |BYTE14 |BYTE15 |BYTE16 |BYTE17 |BYTE18 |BYTE19 |BYTE20 |DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
 | PRODUCT NUMBER | TYPE | DATA1 | DATA2 | DATA3 | DATA4 | DATA5 | DATA6 | DATA7 | DATA8 | DATA9 | DATA10 | DATA11 | DATA12 | DATA13 | DATA14 | DATA15 | DATA16 | DATA17 | DATASUM |DESCRIPTION |
-| 03 | 0D | Event state<br>00:Stopped<br>01:Started<br>02:Ready<br>03:Exit ready<br>04:Exit done | MillSeconds<br>High byte of an unsigned 24-bit integer | MillSeconds<br>Mid byte of an unsigned 24-bit integer | MillSeconds<br>Low byte of an unsigned 24-bit integer | Weight symbol data points (+/-) | Grams weight * 100<br>High byte of an unsigned 24-bit integer | Grams weight * 100<br>Mid byte of an unsigned 24-bit integer | Grams weight * 100<br>Low byte of an unsigned 24-bit integer | Flow rate symbol data points (+/-) | Flow rate * 100<br>High byte of an unsigned Short integer | Flow rate * 100<br>Low byte of an unsigned Short integer |00 |00 |00 |00 |00 |00 |checkSum | Get automatic mode event and settlement data on the scale |
+| 03 | 0D | Event state<br>00:Stopped<br>01:Started<br>02:Ready<br>03:Exit ready<br>04:Exit done | MillSeconds<br>High byte of an unsigned 24-bit integer | MillSeconds<br>Mid byte of an unsigned 24-bit integer | MillSeconds<br>Low byte of an unsigned 24-bit integer | Weight symbol data points (+/-) | Grams weight * 100<br>High byte of an unsigned 24-bit integer | Grams weight * 100<br>Mid byte of an unsigned 24-bit integer | Grams weight * 100<br>Low byte of an unsigned 24-bit integer | Average flow rate symbol data points (+/-) | Average flow rate * 100<br>High byte of an unsigned Short integer | Average flow rate * 100<br>Low byte of an unsigned Short integer |00 |00 |00 |00 |00 |00 |checkSum | Get automatic mode event and settlement data on the scale |
 
 ### Other Data
 
