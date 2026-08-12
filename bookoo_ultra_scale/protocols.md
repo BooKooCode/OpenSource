@@ -43,8 +43,8 @@ if CheckSum == DataSUM
 | 03 | 0A | 08 | 00/01 | 00 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on | |
 | 03 | 0A | 09 | 00 | 00 | checkSum | Send the calibration command. | Only effective in weight-mode |
 | 03 | 0A | 0B | 00/01 | 00 | checkSum | Set the stop condition for automatic-mode, 00 means that the stop condition is the liquid flow stopping, and 01 means that the stop condition is the container being removed. | |
-| 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.0 g. Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later. |
-| 03 | 0A | 15 | 00 | 00 | checkSum | Send the shutdown command | Available in release firmware V4.0.0 and later. Not valid while charging. |
+| 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.0 g. <mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark> |
+| 03 | 0A | 15 | 00 | 00 | checkSum | Send the shutdown command | <mark><strong><em>Available in release firmware V4.0.0 and later.</em></strong></mark> Not valid while charging. |
 
 
 ### Receiving Weight
@@ -60,7 +60,7 @@ if CheckSum == DataSUM
 
 >Note: The powder weight unit is grams
 
->Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.
+><mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark>
 
 | BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | BYTE7 |BYTE8 |BYTE9 |BYTE10 |BYTE11 |BYTE12 |BYTE13 |BYTE14 |BYTE15 |BYTE16 |BYTE17 |BYTE18 |BYTE19 |BYTE20 |DESCRIPTION |
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
@@ -69,7 +69,7 @@ if CheckSum == DataSUM
 
 ### Receiving Automatic Mode Event And Settlement Data
 
->Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.
+><mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark>
 
 >Event trigger: 02 is sent when automatic mode enters ready; 01 is sent when brewing starts automatically or by command; 00 is sent when brewing ends by the configured automatic stop condition or by command; 03 is sent when exiting ready; 04 is sent when exiting done.
 
