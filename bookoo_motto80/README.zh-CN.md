@@ -288,8 +288,8 @@ flowchart TD
 |`bladeGap`|int|研磨度/刀盘间距，单位 μm|
 |`grindRpm`|int|研磨转速，单位 rpm|
 |`humidity`|int|相对湿度，单位 %|
-|`devState`|string|设备运行状态，见 7.3.1|
-|`netState`|string|Wi-Fi 网络状态，见 7.3.2|
+|`devState`|string|设备运行状态，见 [7.3.1](#731-devstate)|
+|`netState`|string|Wi-Fi 网络状态，见 [7.3.2](#732-netstate)|
 |`totalGrinds`|int|设备累计研磨次数|
 |`cupDetect`|bool|是否启用放杯检测|
 |`autoStop`|bool|是否启用自动停止研磨|
@@ -328,21 +328,18 @@ flowchart TD
 |---|---|
 |`IDLE`|空闲|
 |`GRINDING`|研磨中|
-|`SHAKING`|校准/抖动中|
 |`SETTING`|设置中|
 |`UPDATING`|设备更新中|
 |`WARNING`|告警中|
-|`UNKNOWN`|未知状态|
-
-部分固件版本还可能返回以下兼容值：
-
-|可能值|含义|
-|---|---|
-|`Reverse`|反转/退料中|
 |`HighSpeedClean`|高速清粉中|
 |`BootGuide`|开机引导中|
+|`UNKNOWN`|未知状态|
 
 客户端必须容忍表中未列出的非空字符串，并按未知状态处理，不应让未知值导致断连或解析整条 `periodInfo` 失败。
+
+> [!IMPORTANT]
+>
+> 关于公开枚举大小写不统一的问题我们将在下一次固件更新修正这个问题，请务必留意这一点：`devState` 的真值表会在接下来的更新中变化。
 
 #### 7.3.2 `netState`
 

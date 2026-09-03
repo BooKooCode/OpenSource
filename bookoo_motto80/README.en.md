@@ -288,8 +288,8 @@ After the handshake, the device sends this message at 5 Hz while the BLE connect
 |`bladeGap`|int|Grind size/burr gap in μm|
 |`grindRpm`|int|Grinding speed in rpm|
 |`humidity`|int|Relative humidity in %|
-|`devState`|string|Device operating state; see Section 7.3.1|
-|`netState`|string|Wi-Fi network state; see Section 7.3.2|
+|`devState`|string|Device operating state; see Section [7.3.1](#731-devstate)|
+|`netState`|string|Wi-Fi network state; see Section [7.3.2](#732-netstate)|
 |`totalGrinds`|int|Device lifetime grind count|
 |`cupDetect`|bool|Whether cup detection is enabled|
 |`autoStop`|bool|Whether automatic grinding stop is enabled|
@@ -328,21 +328,18 @@ The following values are stable public enumeration values:
 |---|---|
 |`IDLE`|Idle|
 |`GRINDING`|Grinding|
-|`SHAKING`|Calibrating/shaking|
 |`SETTING`|Applying settings|
 |`UPDATING`|Device update in progress|
 |`WARNING`|Warning state|
-|`UNKNOWN`|Unknown state|
-
-Some firmware versions may also return the following compatibility values:
-
-|Possible value|Meaning|
-|---|---|
-|`Reverse`|Reversing/ejecting beans|
 |`HighSpeedClean`|High-speed residual-ground clearing|
 |`BootGuide`|Startup guide in progress|
+|`UNKNOWN`|Unknown state|
 
 The client must tolerate non-empty strings not listed in the table and treat them as unknown states. An unknown value must not cause disconnection or failure to parse the entire `periodInfo` message.
+
+> [!IMPORTANT]
+>
+> The inconsistent capitalization of the public enumeration values will be corrected in the next firmware update. Please take particular note that the `devState` value table will change in the upcoming update.
 
 #### 7.3.2 `netState`
 
