@@ -99,6 +99,13 @@ python mt80_gatt_client.py <MAC>
 python mt80_gatt_client.py 10:20:30:40:50:60
 ```
 
+> [!IMPORTANT]
+> **脚本参数必须使用设备的蓝牙 MAC**
+>
+> `mt80_gatt_client.py` 扫描的是设备的 BLE public address，不是设备的 Wi-Fi MAC。MT80 的**蓝牙 MAC = Wi-Fi MAC + 2**。
+>
+> 获取 Wi-Fi MAC：MT80 开机后，快速三连击机身后方的菜单/设置按键，进入 **“系统信息”** 界面；界面中显示的 **“设备MAC码”** 就是设备的 Wi-Fi MAC。将该地址加 2 后，再作为脚本的 `<MAC>` 参数输入。例如，Wi-Fi MAC 为 `10:20:30:40:50:5E` 时，蓝牙 MAC 为 `10:20:30:40:50:60`。
+
 脚本会：
 
 1. 在 10 秒内扫描指定的公有 MAC 地址；

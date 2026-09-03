@@ -99,6 +99,13 @@ Example:
 python mt80_gatt_client.py 10:20:30:40:50:60
 ```
 
+> [!IMPORTANT]
+> **The script argument must be the device's Bluetooth MAC address**
+>
+> `mt80_gatt_client.py` scans for the device's BLE public address, not its Wi-Fi MAC address. For the MT80, **Bluetooth MAC = Wi-Fi MAC + 2**.
+>
+> To find the Wi-Fi MAC, turn on the MT80 and rapidly press the Menu/Settings button on the back three times to open the **"System Info"** screen. The value labeled **"MAC"** on this screen is the device's Wi-Fi MAC. Add 2 to this address before passing it to the script as `<MAC>`. For example, if the Wi-Fi MAC is `10:20:30:40:50:5E`, the Bluetooth MAC is `10:20:30:40:50:60`.
+
 The script will:
 
 1. Scan for the specified public MAC address for up to 10 seconds;
