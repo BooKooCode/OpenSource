@@ -1,6 +1,6 @@
 # MT80 BLE GATT 二次开发 SDK
 
-**简体中文** | [English](README.en.md)
+**简体中文** | [English](README.md)
 
 ![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4.png?style=flat-square&logo=windows11&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.png?style=flat-square&logo=python&logoColor=white) ![Firmware](https://img.shields.io/badge/Firmware-v1.2.19.0820%2B-2ea44f.png?style=flat-square) ![BLE](https://img.shields.io/badge/BLE-Custom%20GATT-0082FC.png?style=flat-square&logo=bluetooth&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-yellow.png?style=flat-square)
 
@@ -24,6 +24,8 @@
 > Custom GATT 通道不要求 BLE 配对、链路加密或额外的应用认证。客户端应核对设备名称和 MAC 地址，确保连接的是预期设备。
 >
 > **不要通过该通道传输密码、令牌等敏感信息。**
+
+<br>
 
 ## 1. SDK 内容与能力边界
 
@@ -70,6 +72,12 @@ Python 例程只实现验证数据通道所需的最小协议栈，不封装每�
 - 主要用途：为电动调模机构提供频率更高的传感器反馈，以支持自动控制。
 
 具体接口形式、数据字段和实际广播频率以正式发布版本为准。
+
+### 2.3 MQTT SDK
+
+**当前状态：开发中。**
+
+MQTT SDK 目前处于开发阶段。待配套服务器架设完成后，我们将公开相应的 SDK 文档。
 
 <br>
 
@@ -204,6 +212,11 @@ flowchart TD
 <br>
 
 ## 6. JSON 消息模型
+
+> [!IMPORTANT]
+> **设备端字符串显示范围**
+>
+> 当前通过字符串字段发送到设备并由设备显示的内容仅支持英文字母、数字、标点符号，以及内置字库中的常用中文字符。其他语言需待后续固件完成动态语言字库扩展后才能支持。若设置的字符串无法正常显示，请先检查其中的字符是否在上述支持范围内。
 
 ### 6.1 顶层消息类型
 
@@ -376,7 +389,7 @@ flowchart TD
 |字段|类型|含义与设置范围|
 |---|---|---|
 |`feedingRpm`|int|下豆速度，单位 rpm，范围 `[10, 65]`|
-|`bladeGap`|int|刀盘间距，单位 μm，范围 `[0, 999]`|
+|`bladeGap`|int|刀盘间距设置值，单位 μm，范围 `[0, 999]`|
 |`grindRpm`|int|研磨转速，单位 rpm，范围 `[500, 1500]`|
 |`cupDetect`|bool|放杯检测|
 |`brightness`|int|背光亮度，范围 `[1, 5]`|
@@ -384,6 +397,9 @@ flowchart TD
 |`selectPreset`|int|`-1` 表示 N 档，`[0, 9]` 表示用户预设下标|
 |`autoStop`|bool|自动停止研磨|
 |`fastClean`|bool|加速清粉|
+
+> [!IMPORTANT]
+> 通过 `geneSetting` 设置 `bladeGap` 只会更新常规设置中的刀盘间距数值，不会改变设备的实际物理刀盘间距。MT80 仅支持手动调磨，物理刀盘间距必须在设备上手动调整。
 
 获取和设置都需要客户端主动请求，并以收到对应 response 作为本次业务通信完成的标志。
 
@@ -530,7 +546,7 @@ flowchart TD
 
 ## 9. 研磨区间 `grindSection`
 
-研磨区间最多 6 个，只支持整体读取和整体设置，不支持单独修改某个区间的名称或范围。
+研磨区间最多 5 个，只支持整体读取和整体设置，不支持单独修改某个区间的名称或范围。
 
 单个区间格式：
 
@@ -1462,7 +1478,7 @@ UID: ae8f0ec693f96e37140fc424ab5df303
 |---|---|---|
 |常规设置|`GENE_SETTING_KEY_UNSUPPORTED`|请求或设置的配置字段不受支持|
 |研磨区间|`GRIND_SECTION_RANGE_OVERLAP`|区间范围重叠|
-|研磨区间|`GRIND_SECTION_COUNT_EXCEEDED`|区间数量超过 6 个|
+|研磨区间|`GRIND_SECTION_COUNT_EXCEEDED`|区间数量超过 5 个|
 |用户预设|`PRESET_UID_DUPLICATE`|预设 UID 重复|
 |用户预设|`PRESET_INDEX_DUPLICATE`|预设 index 重复|
 |用户预设|`PRESET_UID_NOT_FOUND`|目标预设不存在或不在当前查询范围|

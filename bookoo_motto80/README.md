@@ -25,13 +25,15 @@ This directory provides the public MT80 BLE Custom GATT protocol and a minimal P
 >
 > **Do not transmit passwords, tokens, or other sensitive information over this channel.**
 
+<br>
+
 ## 1. SDK Contents and Scope
 
 This directory contains:
 
 |File|Purpose|
 |---|---|
-|`README.en.md`|English integration guide and public protocol reference|
+|`README.md`|English integration guide and public protocol reference|
 |`mt80_gatt_client.py`|Minimal GATT connection, fragmentation, handshake, and broadcast observation example|
 |`requirements.txt`|Python dependency, currently pinned to `bleak==3.0.2`|
 
@@ -70,6 +72,12 @@ To support developers building automatic control for motorized grind-size adjust
 - Primary purpose: provide higher-frequency sensor feedback for automatic control of motorized grind-size adjustment mechanisms.
 
 The official release determines the final interface, data fields, and actual broadcast frequency.
+
+### 2.3 MQTT SDK
+
+**Current status: under development.**
+
+The MQTT SDK is currently under development. We will publish the corresponding SDK documentation after the supporting server infrastructure has been deployed.
 
 <br>
 
@@ -204,6 +212,11 @@ All field-length limits are measured in UTF-8 bytes, not Unicode characters.
 <br>
 
 ## 6. JSON Message Model
+
+> [!IMPORTANT]
+> **Character support for strings displayed on the device**
+>
+> Currently, string content sent to and displayed by the device supports only English letters, digits, punctuation marks, and common Chinese characters included in the built-in font library. Other languages will be supported after a dynamic multilingual font library is added in a future firmware release. If a configured string is not displayed correctly, first check whether all of its characters are within the supported range described above.
 
 ### 6.1 Top-Level Message Types
 
@@ -376,7 +389,7 @@ The client must tolerate non-empty strings not listed in the table and treat the
 |Field|Type|Meaning and setting range|
 |---|---|---|
 |`feedingRpm`|int|Bean-feeding speed in rpm, range `[10, 65]`|
-|`bladeGap`|int|Burr gap in μm, range `[0, 999]`|
+|`bladeGap`|int|Burr-gap setting value in μm, range `[0, 999]`|
 |`grindRpm`|int|Grinding speed in rpm, range `[500, 1500]`|
 |`cupDetect`|bool|Cup detection|
 |`brightness`|int|Backlight brightness, range `[1, 5]`|
@@ -384,6 +397,9 @@ The client must tolerate non-empty strings not listed in the table and treat the
 |`selectPreset`|int|`-1` means N mode; `[0, 9]` is the user-preset index|
 |`autoStop`|bool|Automatic grinding stop|
 |`fastClean`|bool|Accelerated residual-ground clearing|
+
+> [!IMPORTANT]
+> Setting `bladeGap` through `geneSetting` updates only the burr-gap value in the general settings; it does not change the physical burr gap. The MT80 supports manual grind adjustment only, so the physical burr gap must be adjusted manually on the device.
 
 Both reads and writes require an explicit client request. Receipt of the corresponding response marks completion of that business operation.
 
@@ -530,7 +546,7 @@ Set `selector.type` to `keys`; `value` is an array of field names to read.
 
 ## 9. Grinding Sections: `grindSection`
 
-Up to six grinding sections are supported. The complete configuration can be read or set, but an individual section's name or range cannot be modified separately.
+Up to five grinding sections are supported. The complete configuration can be read or set, but an individual section's name or range cannot be modified separately.
 
 Each section has the following format:
 
@@ -1462,7 +1478,7 @@ All public operations use the following common failure structure:
 |---|---|---|
 |General settings|`GENE_SETTING_KEY_UNSUPPORTED`|The requested or submitted setting field is unsupported|
 |Grinding sections|`GRIND_SECTION_RANGE_OVERLAP`|Section ranges overlap|
-|Grinding sections|`GRIND_SECTION_COUNT_EXCEEDED`|More than six sections were submitted|
+|Grinding sections|`GRIND_SECTION_COUNT_EXCEEDED`|More than five sections were submitted|
 |User presets|`PRESET_UID_DUPLICATE`|Duplicate preset UID|
 |User presets|`PRESET_INDEX_DUPLICATE`|Duplicate preset index|
 |User presets|`PRESET_UID_NOT_FOUND`|The target preset does not exist or is outside the current query scope|
