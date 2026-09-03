@@ -1,6 +1,6 @@
 # ULTRA SCALE Transmission protocol
 - Contact Us: develop@bookoocoffee.com
-- Last Update: August 12, 2026
+- Last Update: September 3, 2026
 
 >All BLE UUIDs adopted by the BOOKOO ULTRA SCALE use a simplified representation of the 16-bit UUID, and its corresponding 128-bit UUID is the unified structure agreed upon by the Bluetooth Association, i.e. 0000 xxxx -0000-1000-8000-00805F9B34FB
 
@@ -34,7 +34,7 @@ if CheckSum == DataSUM
 | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |
 | PRODUCT NUMBER<br>(Header&nbsp;1) | TYPE<br>(Header&nbsp;2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
 | 03 | 0A | 01 | 00 | 00 | checkSum | Send the tare command | Not valid during automatic mode operation. |
-| 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep size, 0 means no beeper sound on | |
+| 03 | 0A | 02 | 00 | 00~03 (Beep level) | checkSum | Adjust the beep volume, 00 means mute, and 01-03 indicate low, medium, and high volume levels | <mark><strong><em>For release firmware V4.0.0 and later, the valid range is 00-03.</em></strong></mark> |
 | 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes | |
 | 03 | 0A | 04 | 00 | 00 | checkSum | Send the start timer command | Only effective in timing-mode and ratio-mode. |
 | 03 | 0A | 05 | 00 | 00 | checkSum | Send the stop timer command | Only effective in timing-mode and ratio-mode. |
@@ -45,6 +45,7 @@ if CheckSum == DataSUM
 | 03 | 0A | 0B | 00/01 | 00 | checkSum | Set the stop condition for automatic-mode, 00 means that the stop condition is the liquid flow stopping, and 01 means that the stop condition is the container being removed. | |
 | 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.0 g. <mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark> |
 | 03 | 0A | 15 | 00 | 00 | checkSum | Send the shutdown command | <mark><strong><em>Available in release firmware V4.0.0 and later.</em></strong></mark> Not valid while charging. |
+| 03 | 0A | 25 | 00 | 00 | checkSum | Reset the automatic shutdown countdown | <mark><strong><em>Available in release firmware V4.0.1 and later.</em></strong></mark> It is recommended to send this command in advance and periodically to keep the scale awake, rather than waiting until the last packet before automatic shutdown. This command does not change the configured automatic shutdown duration. |
 
 
 ### Receiving Weight
