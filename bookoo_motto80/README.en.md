@@ -46,6 +46,8 @@ Public capabilities include:
 
 The Python example implements only the minimal protocol stack needed to verify the data channel. It does not wrap every business operation. Implement business requests by following the JSON, fragmentation, and GATT write rules in this document.
 
+<br>
+
 ## 2. Features Under Development
 
 The capabilities in this section are not included in the current SDK. The following information describes the development direction; the official release determines the actual schedule, interface, and availability.
@@ -68,6 +70,8 @@ To support developers building automatic control for motorized grind-size adjust
 - Primary purpose: provide higher-frequency sensor feedback for automatic control of motorized grind-size adjustment mechanisms.
 
 The official release determines the final interface, data fields, and actual broadcast frequency.
+
+<br>
 
 ## 3. Windows Python Quick Start
 
@@ -106,6 +110,8 @@ The script will:
 7. Continue displaying other messages and update `periodInfo` in place in an interactive terminal.
 
 The terminal should support ANSI cursor control and be wide enough to prevent a single JSON line from wrapping automatically. When output is redirected or the terminal is non-interactive, the script automatically falls back to block-by-block output. Press `Ctrl+C` to exit and disconnect.
+
+<br>
 
 ## 4. BLE Discovery and Custom GATT Service
 
@@ -151,6 +157,8 @@ flowchart TD
 
 Every BLE disconnection invalidates the current subscription and handshake state. **After reconnecting, subscribe to TX again and resend `appHello`.**
 
+<br>
+
 ## 5. GATT Fragment Frame v1
 
 Each RX Write or TX Notify carries one fragment. The frame header is fixed at 8 bytes, and all multibyte integers use little-endian byte order.
@@ -185,6 +193,8 @@ Encode business JSON as UTF-8 before fragmentation. Compact JSON without unneces
 ```
 
 All field-length limits are measured in UTF-8 bytes, not Unicode characters.
+
+<br>
 
 ## 6. JSON Message Model
 
@@ -237,6 +247,8 @@ A success response appears under the same business object as the request:
 ```
 
 Only the first detected error is returned for a request, and the entire request is rejected. `error.field` appears only when the error can be associated with a specific field.
+
+<br>
 
 ## 7. Handshake and Device Broadcasts
 
@@ -347,6 +359,8 @@ The client must tolerate non-empty strings not listed in the table and treat the
 |---|---|
 |`CONNECTED`|Wi-Fi connected|
 |`DISCONNECTED`|Wi-Fi disconnected|
+
+<br>
 
 ## 8. General Settings: `geneSetting`
 
@@ -505,6 +519,8 @@ Set `selector.type` to `keys`; `value` is an array of field names to read.
 }
 ```
 
+<br>
+
 ## 9. Grinding Sections: `grindSection`
 
 Up to six grinding sections are supported. The complete configuration can be read or set, but an individual section's name or range cannot be modified separately.
@@ -575,6 +591,8 @@ Each section has the following format:
   }
 }
 ```
+
+<br>
 
 ## 10. User Grinding Presets: `grindPreset`
 
@@ -1392,6 +1410,8 @@ Device-wide `data` does not contain `uid` or `index`.
 }
 ```
 
+<br>
+
 ## 11. Common Error Responses
 
 All public operations use the following common failure structure:
@@ -1490,6 +1510,8 @@ User-preset error example:
   }
 }
 ```
+
+<br>
 
 ## 12. Copyright, License, and Interpretation
 
