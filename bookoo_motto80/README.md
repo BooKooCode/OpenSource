@@ -363,15 +363,18 @@ The following values are stable public enumeration values:
 |`SETTING`|Applying settings|
 |`UPDATING`|Device update in progress|
 |`WARNING`|Warning state|
-|`HighSpeedClean`|High-speed residual-ground clearing|
-|`BootGuide`|Startup guide in progress|
+|`HIGHSPEEDCLEAN`|High-speed residual-ground clearing|
+|`BOOTGUIDE`|Startup guide in progress|
+|`ADJUSTMENTPURGE`|Grind adjustment and grounds purge|
 |`UNKNOWN`|Unknown state|
 
 The client must tolerate non-empty strings not listed in the table and treat them as unknown states. An unknown value must not cause disconnection or failure to parse the entire `periodInfo` message.
 
-> [!IMPORTANT]
+>[!IMPORTANT]
 >
-> The inconsistent capitalization of the public enumeration values will be corrected in the next firmware update. Please take particular note that the `devState` value table will change in the upcoming update.
+>We have resolved the issue regarding inconsistent casing for public enums in the MT80 firmware version `v1.3.11.1020`. To prevent API call failures, please note the following changes:
+> 1. Enum Renames: `HighSpeedClean` has been renamed to `HIGHSPEEDCLEAN`, and `BootGuide` has been renamed to `BOOTGUIDE`.
+> 2. New Enum: The new `ADJUSTMENTPURGE` enum has been added in the MT80 firmware update `v1.3.11.1020`.
 
 #### 7.3.2 `netState`
 
