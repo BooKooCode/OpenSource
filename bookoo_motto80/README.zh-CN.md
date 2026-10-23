@@ -363,15 +363,18 @@ flowchart TD
 |`SETTING`|设置中|
 |`UPDATING`|设备更新中|
 |`WARNING`|告警中|
-|`HighSpeedClean`|高速清粉中|
-|`BootGuide`|开机引导中|
+|`HIGHSPEEDCLEAN`|高速清粉中|
+|`BOOTGUIDE`|开机引导中|
+|`ADJUSTMENTPURGE`|调磨清粉中|
 |`UNKNOWN`|未知状态|
 
 客户端必须容忍表中未列出的非空字符串，并按未知状态处理，不应让未知值导致断连或解析整条 `periodInfo` 失败。
 
 > [!IMPORTANT]
 >
-> 关于公开枚举大小写不统一的问题我们将在下一次固件更新修正这个问题，请务必留意这一点：`devState` 的真值表会在接下来的更新中变化。
+> 关于公开枚举大小写不统一的问题我们已在 MT80 固件`v1.3.11.1020` 版本中修正这个问题，为了避免调用出错，请注意以下变更：
+> 1. 枚举重命名：原 `HighSpeedClean` 已改为 `HIGHSPEEDCLEAN`；原 `BootGuide` 已改为 `BOOTGUIDE`。
+> 2. 新增枚举： MT80 固件`v1.3.11.1020`更新中同时新增了 `ADJUSTMENTPURGE` 枚举。
 
 #### 7.3.2 `netState`
 
