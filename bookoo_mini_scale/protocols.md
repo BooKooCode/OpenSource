@@ -1,6 +1,6 @@
 # MINI SCALE Transmission protocol
 - Contact Us: develop@bookoocoffee.com
-- Last Update: August 12, 2026
+- Last Update: October 30, 2026
 
 >All BLE UUIDs adopted by the BOOKOO MINI SCALE use a simplified representation of the 16-bit UUID, and its corresponding 128-bit UUID is the unified structure agreed upon by the Bluetooth Association, i.e. 0000 xxxx -0000-1000-8000-00805F9B34FB
 
@@ -30,17 +30,19 @@ if CheckSum == DataSUM
 
 ### Command Data
 
-| BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | DESCRIPTION |
-| ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |
-| PRODUCT NUMBER<br>(Header&nbsp;1) | TYPE<br>(Header&nbsp;2) | DATA1 | DATA2 | DATA3 |  DATASUM |DESCRIPTION |
-| 03 | 0A | 01 | 00 | 00 | checkSum | Send the tare command |
-| 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep size, 0 means no beeper sound on |
-| 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes |
-| 03 | 0A | 04 | 00 | 00 | checkSum | Send the start timer command |
-| 03 | 0A | 05 | 00 | 00 | checkSum | Send the stop timer command |
-| 03 | 0A | 06 | 00 | 00 | checkSum | Send the reset timer command |
-| 03 | 0A | 07 | 00 | 00 | checkSum | Send the tare and start time command (recommend) |
-| 03 | 0A | 08 | 00/01 | 00 | checkSum | Whether or not flow smoothing is turned on, 00 means it is not turned on, 01 means it is turned on |
+| BYTE1 | BYTE2 | BYTE3 | BYTE4 | BYTE5 | BYTE6 | DESCRIPTION | NOTE |
+| ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |
+| PRODUCT NUMBER<br>(Header&nbsp;1) | TYPE<br>(Header&nbsp;2) | DATA1 | DATA2 | DATA3 | DATASUM | DESCRIPTION | NOTE |
+| 03 | 0A | 01 | 00 | 00 | checkSum | Send the tare command | Release V1.0.0-V1.0.1: only effective in weight-mode or timing-mode. From release V1.0.2: also effective in automatic ready. All these versions: ignored during automatic running, automatic done, or calibration. |
+| 03 | 0A | 02 | 00 | 00~05 (Beep level) | checkSum | Adjust the beep volume; 00 means mute | Available from release V1.0.0. No working-mode restriction. Values above 05 are clamped to 05. The setting is saved. |
+| 03 | 0A | 03 | 00 | 05~1e (Auto-off duration) | checkSum | Adjust the automatic shutdown duration from 5-30 minutes | |
+| 03 | 0A | 04 | 00 | 00 | checkSum | Send the start timer command | Only effective in timing-mode when the timer is reset. Does not resume a stopped timer or start automatic-mode extraction. |
+| 03 | 0A | 05 | 00 | 00 | checkSum | Send the stop timer command | From release V1.0.0: in timing-mode, only effective while the timer is running. From release V1.0.2: also ends extraction and enters automatic done during automatic running; V1.0.0-V1.0.1 do not support this automatic-mode action. |
+| 03 | 0A | 06 | 00 | 00 | checkSum | Send the reset timer command | Available from release V1.0.0. Only effective in timing-mode when the timer is stopped. Ignored while the timer is running and in automatic-mode. |
+| 03 | 0A | 07 | 00 | 00 | checkSum | Send the tare and start time command (recommend) | From release V1.0.0: in weight-mode, tares without starting the timer; in timing-mode, tares, resets the timer and starts it. From release V1.0.2: also starts extraction immediately in automatic ready; V1.0.0-V1.0.1 do not support this automatic-mode action. Release V1.4.1 and earlier: ignored in automatic done; use the right button to tare and return to ready. <mark><strong><em>From public release V1.4.2: in automatic done, tares, clears the previous extraction results and returns to ready without starting the next extraction. The scale then waits for liquid flow to start automatically, or another 07 command to start immediately.</em></strong></mark> All these public release versions: ignored during automatic running or calibration. |
+| 03 | 0A | 08 | 00/01 | 00 | checkSum | Set flow rate smoothing: 00 = off, 01 = on | Available from release V1.0.0. No working-mode restriction. The setting is saved. |
+| 03 | 0A | 11 | 00 | 00 | checkSum | Send the shutdown command | <mark><strong><em>Available in public release V1.4.2 and later. Not supported in public release V1.4.1 or earlier, or beta V1.5.0.0806.</em></strong></mark> Requests sleep while the BLE connection is active; BLE disconnects as the scale enters sleep. BYTE4 and BYTE5 must both be 00; otherwise the command is rejected. |
+| 03 | 0A | 12 | 00 | 00 | checkSum | Reset the automatic shutdown countdown | <mark><strong><em>Available in public release V1.4.2 and later. Not supported in public release V1.4.1 or earlier, or beta V1.5.0.0806.</em></strong></mark> BYTE4 and BYTE5 must both be 00; otherwise the command is rejected. The countdown is reset on the next standby check in weight-mode, timing-mode, or automatic-mode (ready, running, or done). This command does not change the configured automatic shutdown duration. Send it in advance and periodically to keep the scale awake, rather than waiting until the last packet before automatic shutdown. |
 
 ### Receiving Weight
 
