@@ -1,6 +1,6 @@
 # ULTRA SCALE Transmission protocol
 - Contact Us: develop@bookoocoffee.com
-- Last Update: September 18, 2026
+- Last Update: November 17, 2026
 
 >All BLE UUIDs adopted by the BOOKOO ULTRA SCALE use a simplified representation of the 16-bit UUID, and its corresponding 128-bit UUID is the unified structure agreed upon by the Bluetooth Association, i.e. 0000 xxxx -0000-1000-8000-00805F9B34FB
 
@@ -46,6 +46,7 @@ if CheckSum == DataSUM
 | 03 | 0A | 0B | 01/02 (Target mode) | 00/01/02 (Stop condition) | checkSum | Set the automatic stop condition separately for each mode. Target mode: 01 = timing-mode, 02 = ratio-mode. Stop condition: 00 = liquid flow stopping, 01 = filter being removed, 02 = server being removed. | <mark><strong><em>Release firmware V4.0.0 and later: BYTE4 selects the target mode; BYTE5 selects the stop condition for its automatic submode. The two release-group parameter formats are not interchangeable.</em></strong></mark> |
 | 03 | 0A | 0D | Powder weight * 10<br>High byte | Powder weight * 10<br>Low byte | checkSum | Set the powder weight | Unit: gram, valid range: 0.1-999.9 g. <mark><strong><em>Available in beta firmware V3.2.4 and later, or release firmware V4.0.0 and later.</em></strong></mark> |
 | 03 | 0A | 15 | 00 | 00 | checkSum | Send the shutdown command | <mark><strong><em>Available in release firmware V4.0.0 and later.</em></strong></mark> Release firmware V3.1.2 and earlier: not supported by this public contract. Not valid while charging. |
+| 03 | 0A | 18 | 00/01 (Ready control) | 00 | checkSum | Set the ready state of automatic-mode: 00 = enter ready, 01 = exit ready. | <mark><strong><em>Supported in release firmware V4.0.3.</em></strong></mark> Only effective in the automatic submode of timing-mode or ratio-mode: 00 changes idle to ready; 01 changes ready to idle. Other state/action combinations are rejected, including requests while running or done. After the state changes, an automatic-mode event packet (type 0D) reports 02 for entering ready or 03 for exiting ready. |
 | 03 | 0A | 25 | 00 | 00 | checkSum | Reset the automatic shutdown countdown | <mark><strong><em>Available in release firmware V4.0.1 and later.</em></strong></mark> It is recommended to send this command in advance and periodically to keep the scale awake, rather than waiting until the last packet before automatic shutdown. This command does not change the configured automatic shutdown duration. |
 
 
